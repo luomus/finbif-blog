@@ -1,0 +1,156 @@
+---
+title: "Introducing the finbif R package"
+author: "Will"
+date: 2021-09-01
+categories: ["R"]
+tags: ["R", "FinBIF"]
+---
+
+<script src="/finbif-blog/rmarkdown-libs/header-attrs/header-attrs.js"></script>
+
+
+<p>The <code>{finbif}</code> R package makes the publicly available data in FinBIF easily
+accessible to programmers. Biodiversity information is available on taxonomy
+and taxon occurrence. Occurrence data can be filtered by taxon, time, location
+and other variables. The data accessed are conveniently preformatted for
+subsequent analyses.</p>
+<div id="installing-the-finbif-package" class="section level2">
+<h2>Installing the finbif package</h2>
+<p>You can install the current stable version of <code>{finbif}</code> from
+<a href="https://cran.r-project.org">CRAN</a>,</p>
+<pre class="r"><code>install.packages(&quot;finbif&quot;)</code></pre>
+<p>You can also install the latest development version of <code>{finbif}</code> from
+<a href="https://github.com">GitHub</a>,</p>
+<pre class="r"><code>remotes::install_github(&quot;luomus/finbif@dev&quot;)</code></pre>
+</div>
+<div id="loading-the-finbif-package" class="section level2">
+<h2>Loading the finbif package</h2>
+<pre class="r"><code>library(finbif)</code></pre>
+</div>
+<div id="getting-a-finbif-access-token" class="section level2">
+<h2>Getting a FinBIF access token</h2>
+<p>To use the FinBIF API you must first request and set a personal access token.
+You can request an API token to be sent to your email address with the function
+<code>finbif_get_token()</code>.</p>
+<pre class="r"><code>finbif_request_token(&quot;your@email.com&quot;)</code></pre>
+<p>Copy the access token that was sent to your email and set it as the environment
+variable <code>FINBIF_ACCESS_TOKEN</code> either for the current session,</p>
+<pre class="r"><code>Sys.setenv(
+  FINBIF_ACCESS_TOKEN = &quot;xtmSOIxjPwq0pOMB1WvcZgFLU9QBklauOlonWl8K5oaLIx8RniJLrvcJU4v9H7Et&quot;
+)
+# Note: the above is not a real access token. Do not try using it.</code></pre>
+<p>, or by adding it to a <code>Renviron</code> startup file (see
+<a href="https://rviews.rstudio.com/2017/04/19/r-for-enterprise-understanding-r-s-startup/">here</a>
+for details).</p>
+</div>
+<div id="getting-occurrence-data" class="section level2">
+<h2>Getting occurrence data</h2>
+<p>You can download occurrence data from the FinBIF database as a <code>data.frame</code> with
+the <code>finbif_occurrence()</code> function.</p>
+<pre class="r"><code>finbif_occurrence(&quot;Cygnus cygnus&quot;, n = 100)
+#&gt; Records downloaded: 100
+#&gt; Records available: 72350
+#&gt; A data.frame [100 x 12]
+#&gt;              record_id scientific_name abundance lat_wgs84 lon_wgs84           date_time
+#&gt; 1  …HR.3211/93020005-U   Cygnus cygnus  1         63.25716  22.95743 2021-08-30 12:00:00
+#&gt; 2  …HR.3211/92949447-U   Cygnus cygnus  1         60.45984  22.77875 2021-08-29 12:00:00
+#&gt; 3  …HR.3211/93150228-U   Cygnus cygnus  1         60.02723  22.4937  2021-08-28 12:00:00
+#&gt; 4        …JX.1271554#3   Cygnus cygnus  10        60.56739  21.57188 2021-08-28 12:00:00
+#&gt; 5        …JX.1270941#3   Cygnus cygnus  5         61.10658  22.1715  2021-08-27 09:55:00
+#&gt; 6  …HR.3211/92446431-U   Cygnus cygnus  1         61.48272  23.56649 2021-08-24 12:00:00
+#&gt; 7        …JX.1270144#6   Cygnus cygnus  1         61.19403  21.45825 2021-08-24 11:10:00
+#&gt; 8        …JX.1269675#6   Cygnus cygnus  2         60.99841  21.71739 2021-08-22 14:10:00
+#&gt; 9  …HR.3211/92135055-U   Cygnus cygnus  1         60.3      24.7     2021-08-21 12:00:00
+#&gt; 10 …HR.3211/91898812-U   Cygnus cygnus  1         61.47693  23.75897 2021-08-20 12:00:00
+#&gt; ...with 90 more records and 6 more variables:
+#&gt; coordinates_uncertainty, any_issues, requires_verification, requires_identification,
+#&gt; record_reliability, record_quality</code></pre>
+<p>You can search for multiple taxa at once and filter the records with the
+<code>filter</code> argument.</p>
+<pre class="details"><code>finbif_occurrence(
+  &quot;Cygnus cygnus&quot;, 
+  &quot;Cygnus olor&quot;,
+  filter = list(coordinates_uncertainty_max = 100)
+)</code></pre>
+<details closed>
+<summary>
+Click to show/hide output.
+</summary>
+<pre class="r"><code>
+Records downloaded: 10
+Records available: 26284
+A data.frame [10 x 12]
+             record_id scientific_name abundance lat_wgs84 lon_wgs84           date_time
+1       …JX.1272037#42     Cygnus olor  2         60.42794  22.20052 2021-08-31 12:00:00
+2  …HR.3211/93020005-U   Cygnus cygnus  1         63.25716  22.95743 2021-08-30 12:00:00
+3       …JX.1271686#36     Cygnus olor  2         60.42794  22.20052 2021-08-30 12:00:00
+4  …HR.3211/92904228-U     Cygnus olor  1         60.18262  24.93198 2021-08-29 12:00:00
+5       …JX.1271691#12     Cygnus olor  2         60.42794  22.20052 2021-08-29 12:00:00
+6  …HR.3211/93150228-U   Cygnus cygnus  1         60.02723  22.4937  2021-08-28 12:00:00
+7        …JX.1271554#3   Cygnus cygnus  10        60.56739  21.57188 2021-08-28 12:00:00
+8       …JX.1270708#12     Cygnus olor  2         60.42794  22.20052 2021-08-27 12:00:00
+9        …JX.1270941#3   Cygnus cygnus  5         61.10658  22.1715  2021-08-27 09:55:00
+10      …JX.1270264#57     Cygnus olor  2         60.42794  22.20052 2021-08-25 12:00:00
+...with 0 more records and 6 more variables:
+coordinates_uncertainty, any_issues, requires_verification, requires_identification,
+record_reliability, record_quality
+</code></pre>
+</details>
+<p><br></p>
+</div>
+<div id="plotting-occurrence-data" class="section level2">
+<h2>Plotting occurrence data</h2>
+<p>The <code>{finbif}</code> package has a number of inbuilt functions for plotting (see e.g.,
+<code>breaks_xy()</code> and <code>hist_xy()</code>). There is also an inbuilt dataset that can be
+used to plot the border of Finland (<code>?finland_map</code>). Together these utilities
+can be used to plot occurrences after they have been downloaded from FinBIF. For
+example, the following can be used to plot the density of Eurasian Jay
+occurrences from Finland.</p>
+<details closed>
+<summary>
+<span title="">Click to show/hide code.</span>
+</summary>
+<pre class="r"><code># Download all the occurrences of Eurasian Jay in Finland
+# that have coordinates accurate to at least 100m
+jays &lt;- finbif_occurrence(
+  taxa   = &quot;Eurasian Jay&quot;,
+  filter = c(
+    coordinates_uncertainty_max = 100,
+    country                     = &quot;Finland&quot;
+  ),
+  n      = 2e4,
+  quiet  = TRUE
+)
+
+# Compute the density of occurrences in 1/4 degree cells and plot as a heatmap
+with(
+  data = c(jays, finland_map),
+  expr = {
+    par(mar = c(5, 5, 1, 1), las = 1)
+    # compute a 2d histogram from the occurrences
+    breaks  &lt;- breaks_xy(bbox, .25) # breakpoints every 1/4 of a degree
+    density &lt;- hist_xy(xy = list(lon_wgs84, lat_wgs84), breaks)
+    # plot the histogram as a heatmap
+    image(density,
+          asp    = 2.4,
+          breaks = 2^seq(0, 12), # breakpoints for the gridcell colours
+          col    = hcl.colors(12, rev = TRUE),
+          xlab   = &quot;Longitude&quot;,
+          ylab   = &quot;Latitude&quot;,
+          panel.first = grid())
+    legend(&quot;topright&quot;,
+           inset  = c(0, .01),
+           legend = expression(2^12, &quot;&quot;, &quot;&quot;, 2^6, &quot;&quot;, &quot;&quot;, 2^0),
+           fill   = hcl.colors(7),
+           border = NA,
+           bty    = &quot;n&quot;,
+           adj    = c(0, 0.25), 
+           x.intersp = .2,
+           y.intersp = .5)
+    # add the Finnish border
+    polygon(x = vertices, lwd = .2)
+  }
+)</code></pre>
+</details>
+<p><img src="/finbif-blog/post/introducing-finbif_files/figure-html/plot-occurrences-eval-1.png" width="480" /></p>
+</div>
