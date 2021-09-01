@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Posts on Vanilla</title>
+    <link>https://luomus.github.io/finbif-blog/post/</link>
+    <description>Recent content in Posts on Vanilla</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Wed, 01 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="https://luomus.github.io/finbif-blog/post/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introducing the finbif R package</title>
+      <link>https://luomus.github.io/finbif-blog/introducing-finbif/</link>
+      <pubDate>Wed, 01 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>https://luomus.github.io/finbif-blog/introducing-finbif/</guid>
+      <description>The {finbif} R package makes the publicly available data in FinBIF easily accessible to programmers. Biodiversity information is available on taxonomy and taxon occurrence. Occurrence data can be filtered by taxon, time, location and other variables. The data accessed are conveniently preformatted for subsequent analyses.
+Installing the finbif package You can install the current stable version of {finbif} from CRAN,
+install.packages(&amp;quot;finbif&amp;quot;) You can also install the latest development version of {finbif} from GitHub,</description>
+    </item>
+    
+  </channel>
+</rss>
