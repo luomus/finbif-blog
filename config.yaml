@@ -1,6 +1,6 @@
 baseURL: https://luomus.github.io/finbif-blog/
 languageCode: en-us
-title: Vanilla
+title: FinBIF blog
 theme: "vanilla-bootstrap-hugo-theme"
 
 taxonomies:
