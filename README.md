@@ -1,2 +1,1 @@
-# finbif-blog
-FinBIF blog
+# FinBIF blog
