@@ -1,4 +1,4 @@
-{{if eq .Section "post"}}
+{{ if and (eq .Section "post") (ne .Params.title "Posts") }}
 
 <div id='discourse-comments' class='container'></div>
 <script type="text/javascript">
