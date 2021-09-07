@@ -1,6 +1,6 @@
 ---
-title: Welcome
+title: Posts
 draft: false
 ---
 
-to the FinBIF Blog
+from FinBIF
